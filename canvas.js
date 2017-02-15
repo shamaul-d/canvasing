@@ -1,19 +1,45 @@
-var c = document.getElementById('brexit');
-var x = c.getContext('2d');
-var b = document.getElementById('reset');
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var width = canvas.width;
+var height = canvas.height;
+var btn = document.getElementById("clearbtn");
+var mousex, mousey;
+var lastpos = -1;
 
-var rectbuilder = function() {
-	x.fillStyle = "#60b2e5";
-	x.fillRect(event.clientX-5,event.clientY-78,50,100);
-	console.log('success');
-}
+ctx.beginPath();
 
+canvas.addEventListener("click", function(e){
+    ctx.lineTo(mousex, mousey);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(mousex, mousey, 10, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fillStyle = "#AAAAAA";
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(mousex,mousey);
+});
 
-c.addEventListener('click', function() {
-	rectbuilder();
-	});
+//Draw rect
+/*
+canvas.addEventListener("click", function(e) {
+    if (lastpos != -1) {
+        ctx.beginPath();
+        ctx.moveTo(lastpos[0],lastpos[1]);
+        ctx.lineTo(mousex, mousey);
+        ctx.stroke();
+    }
+    lastpos = [mousex,mousey];
+});
+*/
+canvas.addEventListener("mousemove", function(e) {
+    mousex = e.offsetX;
+    mousey = e.offsetY;
+});
 
-b.addEventListener('click', function() {
-	x.clearRect(0,0,c.width,c.height);
-	console.log("WHYYYYYYYYY????");
-	});
+btn.addEventListener("click", function(e) {
+    ctx.clearRect(0,0, width, height);
+    ctx.beginPath();
+    lastpos = -1;
+
+});
